@@ -33,12 +33,12 @@ class PolygonHelper {
     //listeners.delete(drawLn);
     this.mapEl.classList.remove('cursor-crosshair');
     const polygon = L.polygon(this.pts, { color: 'red' }).addTo(this.map);
+    let out = [this.pts.map((itm) => [itm.lng, itm.lat])];
     this.pts = [];
-    console.log(polygon._latlngs[0]);
-    return polygon;
+    return out;
 
   }
-  previewLn = (e) => {
+  previewLn(e) {
     this.map.removeLayer(this.mapPln);
     this.mapPln = L.polyline(this.pts.concat([e.latlng]), { 'className': 'cursor-crosshair' }).addTo(this.map);
   }
