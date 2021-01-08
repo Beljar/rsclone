@@ -1,0 +1,12 @@
+@import './sass-modules/debug';
+
+.map {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  outline: none;
+}
+
+.cursor-crosshair {
+  cursor: crosshair;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css"></link>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+  <script src="./index.js" type="module"></script>
+  <link rel="stylesheet" href="./style/style.css"></link>
+</head>
+
+<body>
+  <div class="map" id="map"></div>
+  <div class='debug'>
+    <div class="debug__coord">
+      lat:<span class="debug__lat"></span><br/>
+      lng:<span class="debug__lng"></span>
+    </div>
+    <div class="debug__menu">
+      <div id="debug__pt" class="debug__btn">
+        pt
+      </div>
+      <div id="debug__ln" class="debug__btn">
+        ln
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

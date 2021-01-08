@@ -1,0 +1,12 @@
+.debug{
+  &__coord {
+
+  }
+  &__btn {
+    display: inline-block;
+    padding: 5px;
+    background-color: rgb(190, 190, 190);
+    border: 1px outset gray;
+    cursor: pointer;
+  }
+}
