@@ -1,5 +1,5 @@
 import PolygonHelper from './polygonHelper';
-import Sector from './sector';
+import Sector from './sector.ts';
 import 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../style/style.scss';
@@ -63,7 +63,7 @@ let id = 0;
   const stopPolylineHelper = (e) => {
     if (e.originalEvent.code === 'Enter') {
       //const sector = new Sector();
-      const sector = new Sector({pts: polygonHelper.stop()});
+      const sector = new Sector({type: 'Polygon', coordinates: polygonHelper.stop()});
       console.log(sector);
       L.geoJSON(sector, {onEachFeature}).addTo(map);
     }

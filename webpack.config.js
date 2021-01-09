@@ -19,30 +19,34 @@ module.exports = {
   ],
   module: {
     rules:
-      [
-        {
-          test: /\.html$/i,
-          loader: 'html-loader',
+      [{
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
         },
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-          },
-        },
-        {
-          test: /\.(css|scss)$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
-        },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif|eot|woff|ttf)$/i,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: './assets'
-          }
+      },
+      {
+        test: /\.(css|scss)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|eot|woff|ttf)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: './assets'
         }
+      }
       ],
   },
 };
