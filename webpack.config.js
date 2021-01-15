@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, './src/js/index.js'),
+    main: path.resolve(__dirname, './src/js/index.jsx'),
   },
   output: {
     publicPath: '',
@@ -12,7 +12,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'PWA presentation',
+      title: 'Estate Agent',
       template: path.resolve(__dirname, './src/index.html'),
       filename: 'index.html',
     }),

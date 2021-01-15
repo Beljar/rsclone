@@ -5,9 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '../style/style.scss';
 //import html from '../index.html';
 
-const main = () => {
-
-
+const map = () => {
   const map = L.map('map', {
     crs: L.CRS.Simple
   });
@@ -74,4 +72,6 @@ let id = 0;
   })
 }
 
-document.addEventListener('DOMContentLoaded', main);
+//document.addEventListener('DOMContentLoaded', main);
+
+export default map;
