@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import Map from './map.jsx';
 import { Circle } from 'react-leaflet';
 import '../style/style.scss';
+import 'leaflet/dist/leaflet.css';
 
 class App extends Component {
   constructor() {
