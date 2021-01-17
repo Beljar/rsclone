@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { MapContainer, Circle, TileLayer, Marker, Popup, ImageOverlay, useMap, useMapEvent, Polyline, Polygon } from 'react-leaflet';
 import { CRS } from 'leaflet';
 import Btn from './btn.jsx';
+import CreateBtn from './btnCreate.jsx';
+import polygonArea from './polygonArea.ts';
 
 function ClickEvent(props) {
   useMapEvent('click', props.onClick)
@@ -9,7 +11,16 @@ function ClickEvent(props) {
 }
 
 function MouseMoveEvent(props) {
-  useMapEvent('mousemove', props.onMouseMove)
+  const map = useMap();
+  console.log(map);
+  useMapEvent('mousemove', (e) => {
+    if (props.drawMode) {
+      map._container.classList.add('cursor-crosshair');
+    } else {
+      map._container.classList.remove('cursor-crosshair');
+    }
+    props.onMouseMove(e)
+  })
   return null
 }
 
@@ -26,7 +37,8 @@ class Map extends Component {
     this.state = {
       pts: [],
       polygons: [],
-      drawMode: 0
+      drawMode: 0,
+      selectedId: undefined
     };
     this.drawControlParams =
     {
@@ -46,8 +58,14 @@ class Map extends Component {
     //this.onPolygonSelected = this.onPolygonSelected.bind(this);
   }
   onPolygonSelected(idx) {
-    console.log('selected')
-    console.log(idx)
+    console.log('selected');
+
+    console.log(idx);
+    /*     this.setState(
+          {selectedId: idx}
+        ) */
+    console.log(this.state.selectedId === idx);
+    this.props.onPolygonSelected(idx);
   }
   drawModeToggle() {
 
@@ -64,10 +82,10 @@ class Map extends Component {
       mousePos: [],
     })
   }
-  /*   getSnapshotBeforeUpdate() {
-      console.log('update')
-      console.log(this.state.pts)
-    } */
+  getSnapshotBeforeUpdate() {
+    console.log('update')
+    console.log(this.props.polygons)
+  }
   onClick(e) {
     console.log(e);
     console.log(this.state.drawMode);
@@ -114,12 +132,14 @@ class Map extends Component {
     this.setState((state) => {
       const polygons = state.polygons;
       const pts = state.pts;
-      pts[pts.length - 1] = pts[0];
+      //pts[pts.length - 1] = pts[0];
+      pts.pop();
       polygons.push(pts);
+      console.log(polygonArea(pts));
+      this.props.onPolygonAdd(pts);
       return {
         polygons
       }
-
     }
     )
     console.log(this.state.polygons);
@@ -128,28 +148,34 @@ class Map extends Component {
     console.log(this.props);
   }
   render() {
-
-    return <MapContainer className="map" bounds={this.bounds} crs={CRS.Simple} >
+    console.log('render map');
+    console.log((this.state.drawMode) ? 'map cursor-crosshair' : "map");
+    return <MapContainer className='map' bounds={this.bounds} crs={CRS.Simple} >
       <ImageOverlay
         bounds={[[0, 0], [729, 1300]]}
         url="/src/assets/maps/gf.jpg"
         zIndex={0}
       />
-      {this.state.polygons.map((itm, idx) => {
-        return <Polygon positions={itm} key={idx} 
-        eventHandlers={{
-          click: () => this.onPolygonSelected(idx),
-        }}/>
+      {this.props.polygons.map((itm, idx) => {
+        console.log('polygons')
+        console.log(itm, (this.state.selectedId === idx) ? 'blue' : 'red');
+        return <Polygon pathOptions={{ color: (this.props.selectedPolygonId === idx) ? 'blue' : 'SlateGray', fillColor: 'LightSlateGray' }} positions={itm} key={idx}
+          eventHandlers={{
+            click: () => (this.state.drawMode) ? null : this.onPolygonSelected(idx),
+          }}
+
+        />
       })}
       <Polyline positions={[this.state.pts]} />
       <div className='leaflet-top leaflet-right'>
-        <div className="leaflet-control leaflet-bar">
-          <Btn {...this.drawControlParams[this.state.drawMode]}/>
+        <div className="leaflet-control">
+          {(this.state.drawMode) ? <Btn {...this.drawControlParams[this.state.drawMode]} /> : <CreateBtn {...this.drawControlParams[this.state.drawMode]} />}
+
         </div>
       </div>
       <ClickEvent onClick={this.onClick} />
       <KeyEvent onKeyPress={this.onKeyPress} />
-      <MouseMoveEvent onMouseMove={this.onMouseMove} />
+      <MouseMoveEvent onMouseMove={this.onMouseMove} drawMode={this.state.drawMode} />
     </MapContainer>
   }
 }
