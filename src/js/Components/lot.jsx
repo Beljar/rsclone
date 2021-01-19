@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Input from './input.jsx';
-import Btn from './btn.jsx';
+import Input from './UI/input.jsx';
+import Btn from './UI/btn.jsx';
 
 class LotComponent extends Component {
   constructor(props) {

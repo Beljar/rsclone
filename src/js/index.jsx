@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import Map from './map.jsx';
+import Map from './Components/map.jsx';
 import { Circle } from 'react-leaflet';
-import LotComponent from './lot.jsx';
-import Lot from './lot.ts';
+import LotComponent from './Components/lot.jsx';
+import Lot from './DataModels/lot.ts';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import '../style/style.scss';
 import 'leaflet/dist/leaflet.css';
-import polygonArea from './polygonArea.ts';
+import polygonArea from './Lib/polygonArea.ts';
 
 const scale = 8;
 

@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { MapContainer, Circle, TileLayer, Marker, Popup, ImageOverlay, useMap, useMapEvent, Polyline, Polygon } from 'react-leaflet';
 import { CRS } from 'leaflet';
-import Btn from './btn.jsx';
-import CreateBtn from './btnCreate.jsx';
-import polygonArea from './polygonArea.ts';
+import Btn from './UI/btn.jsx';
+import CreateBtn from './UI/btnCreate.jsx';
+import polygonArea from '../Lib/polygonArea.ts';
 
 function ClickEvent(props) {
   useMapEvent('click', props.onClick)
