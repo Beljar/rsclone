@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import '../style/style.scss';
 import 'leaflet/dist/leaflet.css';
 import polygonArea from './Lib/polygonArea.ts';
+import { addLotToStorage, getLotsFromStorage, setLotsToStorage } from './storage.ts';
 
 const scale = 8;
 
@@ -18,13 +19,10 @@ class App extends Component {
     this.addLot = this.addLot.bind(this);
     this.selectLot = this.selectLot.bind(this);
     this.unSelectLot = this.unSelectLot.bind(this);
+    this.deleteLot = this.deleteLot.bind(this);
     this.state = {
-      objects: [
-        <Circle center={[0, 0]} radius={500} />,
-        <Circle center={[200, 100]} radius={500} />
-      ],
       pts: [],
-      lots: [],
+      lots: getLotsFromStorage().map((itm) => new Lot(itm)),
       selectedLotId: null
     }
   }
@@ -40,16 +38,19 @@ class App extends Component {
       const lots = state.lots;
       const lot = new Lot({
         geometry:
-        { type: 'polygon', coordinates },
-      area: Math.round((polygonArea(coordinates) / (scale ** 2)) * 10) / 10}
+          { type: 'polygon', coordinates },
+        area: Math.round((polygonArea(coordinates) / (scale ** 2)) * 10) / 10
+      }
       )
       lots.push(lot);
+      addLotToStorage(lot);
       return {
         lots
       }
     })
     console.log('lot added');
-    console.log(this.state.lots)
+    console.log(this.state.lots);
+
   }
   selectLot(id) {
     console.log('select lot');
@@ -58,6 +59,30 @@ class App extends Component {
       selectedLotId: id
     })
   }
+
+  deleteLot(uuid) {
+    console.log('delete')
+    const id = this.state.lots.findIndex((itm) => itm.id === uuid);
+    console.log(id);
+    if (this.state.selectedLotId === id) {
+      console.log('unselect')
+      this.unSelectLot();
+    }
+    this.setState((state) => {
+      const lots = state.lots;
+      lots.splice(id, 1);
+      setLotsToStorage(lots);
+      return {
+        lots
+      }
+    })
+
+  }
+
+  saveLot() {
+
+  }
+
   clickHandle(e) {
     console.log(e);
     this.setState({
@@ -66,13 +91,15 @@ class App extends Component {
   }
 
   render() {
+    console.log('render main');
+    console.log(this.state);
     return <div>
       <Grid container spacing={3}>
         <Grid item xs={9}>
-          <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId}/>
+          <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot}/>
         </Grid>
         <Grid item xs={3}>
-          {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId]} onUnSelect={this.unSelectLot}/> : <div>Select lot</div>}
+          {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId]} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot}/> : <div>Select lot</div>}
         </Grid>
       </Grid>
     </div>

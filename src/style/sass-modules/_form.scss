@@ -1,0 +1,11 @@
+.form {
+  &__row {
+    margin: 15px 0px;
+    .form--label {
+      display: inline-block;
+    }
+    .form--input {
+      margin-left: 10px;
+    }
+  }
+}

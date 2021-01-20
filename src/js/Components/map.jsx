@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { MapContainer, Circle, TileLayer, Marker, Popup, ImageOverlay, useMap, useMapEvent, Polyline, Polygon } from 'react-leaflet';
 import { CRS } from 'leaflet';
-import Btn from './UI/btn.jsx';
+import Button from '@material-ui/core/Button';
 import CreateBtn from './UI/btnCreate.jsx';
 import polygonArea from '../Lib/polygonArea.ts';
+import CreateIcon from '@material-ui/icons/Create';
 
 function ClickEvent(props) {
   useMapEvent('click', props.onClick)
@@ -51,7 +52,8 @@ class Map extends Component {
         onClick: this.drawModeOff.bind(this),
       },
     }
-
+    this.drawModeOn = this.drawModeOn.bind(this);
+    this.drawModeOff = this.drawModeOff.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -169,8 +171,9 @@ class Map extends Component {
       <Polyline positions={[this.state.pts]} />
       <div className='leaflet-top leaflet-right'>
         <div className="leaflet-control">
-          {(this.state.drawMode) ? <Btn {...this.drawControlParams[this.state.drawMode]} /> : <CreateBtn {...this.drawControlParams[this.state.drawMode]} />}
-
+          {(this.state.drawMode) ? 
+          <Button variant="contained" onClick={this.drawModeOff} >Cancel</Button> : 
+          <Button color='primary' variant="contained" onClick={this.drawModeOn } startIcon={<CreateIcon />}>New lot</Button> }
         </div>
       </div>
       <ClickEvent onClick={this.onClick} />
