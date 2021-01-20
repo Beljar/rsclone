@@ -1,4 +1,3 @@
-import { copyFile } from 'fs';
 import { v4 as uuidv4, v4 } from 'uuid';
 
 interface GeometryInterface {
@@ -11,20 +10,23 @@ interface LotInterface {
   id: string;
   geometry: GeometryInterface;
   area: number;
+  tenantUUID: string;
 }
 
 class Lot {
   uuid:string;
   id:string;
   area:number;
+  tenantUUID: string;
   geometry:GeometryInterface;
   constructor(
-    {uuid=uuidv4(), id=null, area, geometry}: LotInterface
+    {uuid=uuidv4(), id=null, area, tenantUUID=null, geometry}: LotInterface
   ) {
     this.uuid = uuid;
     this.id = id;
     this.area = area;
     this.geometry = geometry;
+    this.tenantUUID = tenantUUID;
     //this.type = 'Feature';
     //this.area = 0;
 /*     this.geometry = {
@@ -41,7 +43,8 @@ class Lot {
       {uuid:this.uuid,
       id:this.id,
       area:this.area,
-      geometry:this.geometry}
+      geometry:this.geometry,
+      tenantUUID: this.tenantUUID}
     );
   }
 }

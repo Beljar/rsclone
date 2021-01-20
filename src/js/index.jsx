@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import Map from './Components/map.jsx';
 import { Circle } from 'react-leaflet';
 import LotComponent from './Components/lot.jsx';
+import TenantComponent from './Components/tenant.jsx';
 import Lot from './DataModels/lot.ts';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -23,7 +24,8 @@ class App extends Component {
     this.state = {
       pts: [],
       lots: getLotsFromStorage().map((itm) => new Lot(itm)),
-      selectedLotId: null
+      selectedLotId: null,
+      tenant: null
     }
   }
   unSelectLot() {
@@ -98,8 +100,10 @@ class App extends Component {
         <Grid item xs={9}>
           <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot}/>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} className='scroll'>
           {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId]} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot}/> : <div>Select lot</div>}
+          {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract}/> : null}
+          
         </Grid>
       </Grid>
     </div>

@@ -1,4 +1,5 @@
 import Lot from './DataModels/lot';
+import Tenant from './DataModels/tenant';
 
 function addLotToStorage(lot: Lot) {
   let data = localStorage.getItem('lots');
@@ -24,4 +25,19 @@ function setLotsToStorage(lots:Array<Lot>) {
   localStorage.setItem('lots', JSON.stringify(lots));
 }
 
-export { addLotToStorage, getLotsFromStorage, setLotsToStorage };
+function addTenant(tenant:Tenant) {
+  let data = localStorage.getItem('tenants');
+  if (data) {
+    let tenants = JSON.parse(data);
+    tenants.push(tenant);
+    localStorage.setItem('tenants', JSON.stringify(tenants));
+  } else {
+    localStorage.setItem('tenants', JSON.stringify([tenant]));
+  }
+}
+
+function getTenantByLotUUID (uuid:string) {
+
+}
+
+export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenant };
