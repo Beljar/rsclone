@@ -168,7 +168,7 @@ class Map extends Component {
 
         />
       })}
-      <Polyline positions={[this.state.pts]} />
+      <Polyline className='cursor-crosshair' positions={[this.state.pts]} />
       <div className='leaflet-top leaflet-right'>
         <div className="leaflet-control">
           {(this.state.drawMode) ? 

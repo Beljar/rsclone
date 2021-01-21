@@ -1,6 +1,14 @@
 .form {
+  input {
+    width:100px;
+  }
+  .form__button-block {
+    margin-left: -10px;
+  }
   &__row {
     margin: 15px 0px;
+    display: flex;
+    align-items: center;
     .form--label {
       display: inline-block;
     }

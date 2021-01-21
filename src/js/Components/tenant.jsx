@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import TenantDialog from './tenantDialog.jsx';
 import Tenant from '../DataModels/tenant.ts';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 class TenantComponent extends Component {
   constructor(props) {
@@ -77,11 +78,11 @@ class TenantComponent extends Component {
           <div>
             <div className='form__row'>
               <span className='form--label'>Name:</span>
-              <span className='form--input'><input type='text' onChange={this.setName} /></span>
+              <span className='form--input'><TextField type='text' onChange={this.setName} /></span>
             </div>
             <div className='form__row'>
               <span className='form--label'>ITN:</span>
-              <span className='form--input'><input type='text' onChange={this.setITN} /></span>
+              <span className='form--input'><TextField type='text' onChange={this.setITN} /></span>
             </div>
             <div className='form__row'>
               <span className='form--label'>Status</span>

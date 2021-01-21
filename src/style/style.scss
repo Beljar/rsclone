@@ -7,8 +7,10 @@ body {
 }
 
 .overlay {
-  position: sticky;
-  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.411);
 }
@@ -44,15 +46,25 @@ body {
 
 .map {
   width: 100%;
-  height: 600px;
+  height: 800px;
+  z-index: 0;
   overflow: hidden;
   outline: none;
 }
 
+.leaflet-container {
+  background-color: white !important;
+}
+
 .lot__btn {
-  margin-left: 10px !important;
+  margin: 10px 10px !important;
 }
 
 .cursor-crosshair {
   cursor: crosshair !important;
+}
+
+
+#app{
+  margin-top: 32px;
 }
