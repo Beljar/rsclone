@@ -7,44 +7,46 @@ interface GeometryInterface {
 
 interface LotInterface {
   uuid: string;
-  id: string;
+  name: string;
   geometry: GeometryInterface;
   area: number;
   tenantUUID: string;
 }
 
 class Lot {
-  uuid:string;
-  id:string;
-  area:number;
+  uuid: string;
+  name: string;
+  area: number;
   tenantUUID: string;
-  geometry:GeometryInterface;
+  geometry: GeometryInterface;
   constructor(
-    {uuid=uuidv4(), id=null, area, tenantUUID=null, geometry}: LotInterface
+    { uuid = uuidv4(), name = null, area, tenantUUID = null, geometry }: LotInterface
   ) {
     this.uuid = uuid;
-    this.id = id;
+    this.name = name;
     this.area = area;
     this.geometry = geometry;
     this.tenantUUID = tenantUUID;
     //this.type = 'Feature';
     //this.area = 0;
-/*     this.geometry = {
-      coordinates: pts,
-      type: 'Polygon'
-    }
-    for (let i = 1; i <= (this.geometry.coordinates.length - 2); i += 1) {
-      const triangle = [this.geometry.coordinates[0], this.geometry.coordinates[i], this.geometry.coordinates[i + 1]];
-      console.log(triangle);
-    } */
+    /*     this.geometry = {
+          coordinates: pts,
+          type: 'Polygon'
+        }
+        for (let i = 1; i <= (this.geometry.coordinates.length - 2); i += 1) {
+          const triangle = [this.geometry.coordinates[0], this.geometry.coordinates[i], this.geometry.coordinates[i + 1]];
+          console.log(triangle);
+        } */
   }
-  clone(){
+  clone() {
     return new Lot(
-      {uuid:this.uuid,
-      id:this.id,
-      area:this.area,
-      geometry:this.geometry,
-      tenantUUID: this.tenantUUID}
+      {
+        uuid: this.uuid,
+        name: this.name,
+        area: this.area,
+        geometry: this.geometry,
+        tenantUUID: this.tenantUUID
+      }
     );
   }
 }

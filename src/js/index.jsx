@@ -67,7 +67,7 @@ class App extends Component {
 
   deleteLot(uuid) {
     console.log('delete')
-    const id = this.state.lots.findIndex((itm) => itm.id === uuid);
+    const id = this.state.lots.findIndex((itm) => itm.uuid === uuid);
     console.log(id);
     if (this.state.selectedLotId === id) {
       console.log('unselect')
@@ -87,7 +87,7 @@ class App extends Component {
   saveLot(lot) {
     console.log('save lot');
     console.log(lot);
-    const id = this.state.lots.findIndex((itm) => itm.id === lot.uuid);
+    const id = this.state.lots.findIndex((itm) => itm.uuid === lot.uuid);
     console.log(id);
     this.setState((state) => {
       const lots = state.lots;
@@ -111,15 +111,15 @@ class App extends Component {
     console.log(this.state);
     return <div>
       <Grid container spacing={6}>
-        <Grid item xs={8}>
+        <Grid item xs={12} sm={9} lg={7} >
           <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
         </Grid>
-        <Grid item xs={4} className=''>
+        <Grid item xs={12} sm={3} lg={5} className='left-inner-shadow'>
           <Grid container xs={12} className=''>
-            <Grid item xs={6} className=''>
+            <Grid item xs={6} sm={12} lg={6} className=''>
               {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
             </Grid>
-            <Grid item xs={6} className=''>
+            <Grid item xs={6} sm={12} lg={6} className=''>
               {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} /> : null}
             </Grid>
           </Grid>

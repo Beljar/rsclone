@@ -25,7 +25,7 @@ class LotComponent extends Component {
       console.log(state);
       const lot = state.lot;
       console.log(lot);
-      lot.id = e.target.value;
+      lot.name = e.target.value;
       return {
         lot: lot
       }
@@ -35,12 +35,12 @@ class LotComponent extends Component {
     console.log('render lot');
     console.log(this.props.lot);
     return <div className="section">
-      <div className='section__h1'>Lot {this.props.lot.id}</div>
+      <div className='section__h1'>Lot {this.props.lot.name}</div>
       <div className='form'>
         {/* <div>System ID: {this.props.lot.id}</div> */}
         <div className='form__row'>
           <span className='form--label'>Name:</span>
-          <span className='form--input'><TextField type='text' value={this.props.lot.id || ''} onChange={this.setId} /></span>
+          <span className='form--input'><TextField type='text' value={this.props.lot.name || ''} onChange={this.setId} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Status</span>
@@ -74,7 +74,20 @@ class LotComponent extends Component {
           <span className='form--label'>Gas:</span>
           <span className='form--input'><TextField type='text' /></span>
         </div>
-        <span className='form--label' className='section__h2 section__text--green'>Recommended price:</span>
+        <div className='form--label' className='section__h2'>Price</div>
+        <div className='form__row'>
+          <span className='form--label'>Pay period:</span>
+          <span className='form--input'>
+            <Select
+              native
+              value={2}>
+              <option value={0}>Day</option>
+              <option value={1}>Week</option>
+              <option value={2}>Month</option>
+              <option value={3}>Year</option>
+            </Select></span>
+        </div>
+        <div className='form--label' className='section__h3 section__text--green'>Recommended price:</div>
         <div className='form__row'>
           <span className='form--label'>Per meter:</span>
           <span className='form--input'><TextField type='text' /></span>
@@ -83,12 +96,12 @@ class LotComponent extends Component {
           <span className='form--label'>Total:</span>
           <span className='form--input'><TextField type='text' /></span>
         </div>
-        <span className='form--label' className='section__h2 section__text--red'>Minimal price:</span>
-        <PriceCalculator lot={this.state.lot}/>
+        <span className='form--label' className='section__h3 section__text--red'>Minimal price:</span>
+        <PriceCalculator lot={this.state.lot} />
         <div className='form__button-block'>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.save}>Save</Button>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.props.onUnSelect} >Unselect</Button>
-          <Button className='lot__btn' color='secondary' variant="contained" onClick={() => this.props.onDelete(this.props.lot.id)} >Delete</Button>
+          <Button className='lot__btn' color='secondary' variant="contained" onClick={() => this.props.onDelete(this.props.lot.name)} >Delete</Button>
         </div>
       </div>
     </div>

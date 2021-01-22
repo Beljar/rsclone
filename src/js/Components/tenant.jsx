@@ -4,6 +4,8 @@ import TenantDialog from './tenantDialog.jsx';
 import Tenant from '../DataModels/tenant.ts';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
+
 
 class TenantComponent extends Component {
   constructor(props) {
@@ -70,8 +72,8 @@ class TenantComponent extends Component {
         {(this.state.tenant === null) ?
           <div>
             <div className='form__row'>
-              <span className='form--label'>Find:</span>
-              <span className='form--input'><input type='text' /> </span>
+              <SearchIcon/>
+              <span className='form--input'><TextField type='text' /> </span>
             </div>
             <Button color='primary' variant="contained" onClick={this.newTenant}>New</Button>
           </div> :
