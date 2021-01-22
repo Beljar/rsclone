@@ -6,6 +6,31 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  &__h1 {
+    font-size: 32px;
+    color: #3f51b5;
+    font-weight: 600;
+  }
+}
+
+.body-container {
+
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  background-image: url('../assets/icons/logo.svg');
+  background-size: contain;
+  display: inline-block;
+  background-position: center;
+}
+
 .overlay {
   position: absolute;
   top: 0px;
@@ -14,7 +39,9 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.411);
 }
-
+.inner-container {
+  height: 100%;
+}
 .container {
   max-width:calc(100% - 10px);
   margin: auto;
@@ -22,8 +49,15 @@ body {
 .left-inner-shadow {
   box-shadow: inset 7px 0 9px -7px black;
 }
+.inner-shadow {
+  box-shadow: inset 1px 0px 5px 1px rgba(0, 0, 0, 0.397);
+}
+
+
 .section {
-  margin-bottom: 30px;
+  padding: 12px;
+  height: 800px;
+  overflow-y:auto;
   &__h1 {
     font-size: 32px;
     color: #3f51b5;
@@ -73,5 +107,5 @@ body {
 
 
 #app{
-  margin-top: 32px;
+
 }

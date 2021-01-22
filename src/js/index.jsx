@@ -110,21 +110,33 @@ class App extends Component {
     console.log('render main');
     console.log(this.state);
     return <div>
-      <Grid container spacing={6}>
-        <Grid item xs={12} sm={9} lg={7} >
-          <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
-        </Grid>
-        <Grid item xs={12} sm={3} lg={5} className='left-inner-shadow'>
-          <Grid container xs={12} className=''>
-            <Grid item xs={6} sm={12} lg={6} className=''>
-              {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
-            </Grid>
-            <Grid item xs={6} sm={12} lg={6} className=''>
-              {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} /> : null}
-            </Grid>
+      <div className='header'>
+        <i className='logo'></i>
+        <span className='header__h1'>Estate Agent</span>
+      </div>
+      <div className="body-container">
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={9} lg={7}>
+            <div className='section inner-shadow' >
+              <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={3} lg={5}>
+          <div className='section inner-shadow' >
+            <div className="inner-container">
+              <Grid container  xs={12} >
+                <Grid  item xs={6} sm={12} lg={6} className=''>
+                  {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
+                </Grid>
+                <Grid  item xs={6} sm={12} lg={6} className=''>
+                  {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} /> : null}
+                </Grid>
+              </Grid>
+            </div>
+            </div>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
       {(this.state.modalMode) ? <div className='overlay'></div> : null}
     </div>
   }

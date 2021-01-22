@@ -66,7 +66,7 @@ class TenantComponent extends Component {
   render() {
     console.log('tenant render');
     console.log(this.state);
-    return <div className="section">
+    return <div className="">
       <div className='section__h1'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>
       <div className='form'>
         {(this.state.tenant === null) ?

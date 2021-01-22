@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import PriceCalculator from './priceCalculator.jsx';
+import Checkbox from '@material-ui/core/Checkbox';
+import config from '../constants.ts';
 
 class LotComponent extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -11,7 +13,7 @@ class LotComponent extends Component {
   constructor(props) {
     super(props);
     this.save = this.save.bind(this);
-    this.setId = this.setId.bind(this);
+    this.setLotProp = this.setLotProp.bind(this);
     console.log(this.props.lot);
     console.log(this.props.lot.clone());
     this.state = { lot: this.props.lot };
@@ -19,13 +21,25 @@ class LotComponent extends Component {
   save() {
     this.props.onSave(this.state.lot);
   }
-  setId(e) {
-    console.log(e.target.value);
+  setLotProp(e) {
+    console.log(e.target.type);
+    const key = e.target.name;
+    let val;
+    if(e.target.type === 'text'){
+    val = e.target.value;
+  } else if(e.target.type === 'checkbox'){
+    val = e.target.checked;
+    }
+    if (config.debug) {
+      console.log(`assigning ${key} ${val} to lot`);
+    }
     this.setState((state) => {
       console.log(state);
       const lot = state.lot;
+      if (config.debug) {
       console.log(lot);
-      lot.name = e.target.value;
+      }
+      lot[key] = val;
       return {
         lot: lot
       }
@@ -34,13 +48,13 @@ class LotComponent extends Component {
   render() {
     console.log('render lot');
     console.log(this.props.lot);
-    return <div className="section">
+    return <div className="">
       <div className='section__h1'>Lot {this.props.lot.name}</div>
       <div className='form'>
         {/* <div>System ID: {this.props.lot.id}</div> */}
         <div className='form__row'>
           <span className='form--label'>Name:</span>
-          <span className='form--input'><TextField type='text' value={this.props.lot.name || ''} onChange={this.setId} /></span>
+          <span className='form--input'><TextField name='name' type='text' value={this.props.lot.name || ''} onChange={this.setLotProp} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Status</span>
@@ -67,10 +81,10 @@ class LotComponent extends Component {
           <span className='form--input'><TextField type='text' /></span>
         </div>
         <div className='form__row'>
-          <span className='form--label'>Water:</span>
-          <span className='form--input'><TextField type='text' /></span>
-        </div>
-        <div className='form__row'>
+          <span className=''>Water:</span>
+          <span className=''><Checkbox checked={this.props.lot.water} name='water' color='primary' onChange={this.setLotProp} />
+          </span>
+
           <span className='form--label'>Gas:</span>
           <span className='form--input'><TextField type='text' /></span>
         </div>

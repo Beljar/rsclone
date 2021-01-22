@@ -10,6 +10,7 @@ interface LotInterface {
   name: string;
   geometry: GeometryInterface;
   area: number;
+  water: boolean;
   tenantUUID: string;
 }
 
@@ -17,14 +18,16 @@ class Lot {
   uuid: string;
   name: string;
   area: number;
+  water: boolean;
   tenantUUID: string;
   geometry: GeometryInterface;
   constructor(
-    { uuid = uuidv4(), name = null, area, tenantUUID = null, geometry }: LotInterface
+    { uuid = uuidv4(), name = null, area, water = false, tenantUUID = null, geometry }: LotInterface
   ) {
     this.uuid = uuid;
     this.name = name;
     this.area = area;
+    this.water = water;
     this.geometry = geometry;
     this.tenantUUID = tenantUUID;
     //this.type = 'Feature';
@@ -39,15 +42,10 @@ class Lot {
         } */
   }
   clone() {
-    return new Lot(
-      {
-        uuid: this.uuid,
-        name: this.name,
-        area: this.area,
-        geometry: this.geometry,
-        tenantUUID: this.tenantUUID
-      }
-    );
+    console.log('cloning');
+    const clone = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+    console.log(clone);
+    return clone;
   }
 }
 
