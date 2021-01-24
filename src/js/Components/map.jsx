@@ -155,7 +155,7 @@ class Map extends Component {
     return <MapContainer className='map' bounds={this.bounds} crs={CRS.Simple} >
       <ImageOverlay
         bounds={[[0, 0], [729, 1300]]}
-        url="/src/assets/maps/gf.jpg"
+        url="./src/assets/maps/gf.jpg"
         zIndex={0}
       />
       {this.props.polygons.map((itm, idx) => {
