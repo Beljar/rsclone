@@ -5,6 +5,10 @@ import Button from '@material-ui/core/Button';
 import CreateBtn from './UI/btnCreate.jsx';
 import polygonArea from '../Lib/polygonArea.ts';
 import CreateIcon from '@material-ui/icons/Create';
+import '../../assets/maps/gf.jpg';
+
+
+(new Image(1,1)).src = '../../assets/maps/gf.jpg';
 
 function ClickEvent(props) {
   useMapEvent('click', props.onClick)
@@ -155,7 +159,7 @@ class Map extends Component {
     return <MapContainer className='map' bounds={this.bounds} crs={CRS.Simple} >
       <ImageOverlay
         bounds={[[0, 0], [729, 1300]]}
-        url="./src/assets/maps/gf.jpg"
+        url="/assets/maps/gf.jpg"
         zIndex={0}
       />
       {this.props.polygons.map((itm, idx) => {
