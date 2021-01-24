@@ -129,7 +129,7 @@ class App extends Component {
                   {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
                 </Grid>
                 <Grid  item xs={6} sm={12} lg={6} className=''>
-                  {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} /> : null}
+                  {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} onUnSelect={this.unSelectTenant} onDelete={this.deleteTenant} onSave={this.saveTenant} /> : null}
                 </Grid>
               </Grid>
             </div>
