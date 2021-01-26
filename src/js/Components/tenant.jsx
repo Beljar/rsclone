@@ -5,6 +5,7 @@ import Tenant from '../DataModels/tenant.ts';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import { addTenanttoStorage } from '../storage.ts';
 
 
 class TenantComponent extends Component {
@@ -18,11 +19,22 @@ class TenantComponent extends Component {
     console.log(this.props.tenant);
     this.state = {
       tenant: this.props.tenant,
+      tenantAssigned:0,
       newMode: 0
     };
   }
   saveTenant() {
+    this.formRef.reset();
 
+      console.log('save tenant');
+      console.log(this.state.tenant);
+      addTenanttoStorage(this.state.tenant);
+      this.props.onSave(this.state.tenant);
+    this.setState((state) => {
+      return {
+        newMode: 0
+      }
+    })
   }
   setName(e) {
     console.log(e.target.value);
@@ -57,6 +69,7 @@ class TenantComponent extends Component {
     console.log(this.state);
   }
   resetTenant() {
+    this.formRef.reset();
     this.setState({
       tenant: null,
       newMode: 0
@@ -67,17 +80,31 @@ class TenantComponent extends Component {
     console.log('tenant render');
     console.log(this.state);
     return <div className="">
-      <div className='section__h1'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>
-      <div className='form'>
-        {(this.state.tenant === null) ?
-          <div>
+      <div className='section__h2'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>      
+      <div className='form'>        
+        {(this.state.tenant === null || !this.state.newMode) ?
+          <form ref={(el) => this.formRef = el}>
             <div className='form__row'>
-              <SearchIcon/>
+              <SearchIcon />
               <span className='form--input'><TextField type='text' /> </span>
             </div>
+            {(this.state.tenant) ? <div>
+              <div className='form__row'>
+                <span className='form--label'>Name:</span>
+                <span className='form--input'>{this.state.tenant.name}</span>
+              </div>
+              <div className='form__row'>
+                <span className='form--label'>ITN:</span>
+                <span className='form--input'>{this.state.tenant.ITN}</span>
+              </div>
+              <div className='form__row'>
+                <span className='form--label'>Status</span>
+                </div>
+            </div> : null
+            }
             <Button color='primary' variant="contained" onClick={this.newTenant}>New</Button>
-          </div> :
-          <div>
+          </form> :
+          <form ref={(el) => this.formRef = el}>
             <div className='form__row'>
               <span className='form--label'>Name:</span>
               <span className='form--input'><TextField type='text' onChange={this.setName} /></span>
@@ -103,15 +130,9 @@ class TenantComponent extends Component {
                 </Select></span>
             </div>
             <Button className='lot__btn' color='primary' variant="contained" onClick={this.resetTenant} >Cancel</Button>
-            <Button className='lot__btn' color='primary' variant="contained" onClick={this.resetTenant} >Save</Button>
-          </div>
+            <Button className='lot__btn' color='primary' variant="contained" onClick={this.saveTenant} >Save</Button>
+          </form>
         }
-        {((this.state.tenant !== null) && (!this.state.newMode)) ?
-          <div>
-            <Button color='primary' variant="contained" onClick={this.props.startContract}>Start contract</Button>
-            <Button className='lot__btn' color='primary' variant="contained" onClick={this.props.onUnSelect} >Start reserve</Button>
-          </div>
-          : null}
       </div>
     </div>
   }

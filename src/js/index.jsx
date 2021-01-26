@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
+import ContractComponent from './Components/Contract/contract.jsx';
 import Map from './Components/map.jsx';
 import { Circle } from 'react-leaflet';
 import LotComponent from './Components/lot.jsx';
@@ -23,6 +24,8 @@ class App extends Component {
     this.unSelectLot = this.unSelectLot.bind(this);
     this.deleteLot = this.deleteLot.bind(this);
     this.saveLot = this.saveLot.bind(this);
+    this.startContract = this.startContract.bind(this);
+
     this.state = {
       pts: [],
       lots: getLotsFromStorage().map((itm) => new Lot(itm)),
@@ -106,6 +109,17 @@ class App extends Component {
     })
   }
 
+  startContract(contract, tenant) {
+    console.log('contract started');
+    console.log(this.state.contract);
+    this.setState((state) => {
+      return {
+        contract,
+        tenant
+      }
+    })
+  }
+
   render() {
     console.log('render main');
     console.log(this.state);
@@ -117,22 +131,22 @@ class App extends Component {
       <div className="body-container">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={9} lg={7}>
-            <div className='section inner-shadow' >
+            <div className='section section-map inner-shadow' >
               <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
             </div>
           </Grid>
           <Grid item xs={12} sm={3} lg={5}>
-          <div className='section inner-shadow' >
-            <div className="inner-container">
-              <Grid container  xs={12} >
-                <Grid  item xs={6} sm={12} lg={6} className=''>
-                  {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
+            <div className='section section-info' >
+              <div className="inner-container">
+                <Grid container xs={12} spacing={3}>
+                  <Grid item xs={6} sm={12} lg={6} className=''>
+                    {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
+                  </Grid>
+                  <Grid item xs={6} sm={12} lg={6} className=''>
+                    {(this.state.selectedLotId !== null) ? <ContractComponent contract={this.state.contract} tenant={this.state.tenant} onStart={this.startContract} /> : null}
+                  </Grid>
                 </Grid>
-                <Grid  item xs={6} sm={12} lg={6} className=''>
-                  {(this.state.selectedLotId !== null) ? <TenantComponent tenant={this.state.tenant} startContract={this.startContract} onUnSelect={this.unSelectTenant} onDelete={this.deleteTenant} onSave={this.saveTenant} /> : null}
-                </Grid>
-              </Grid>
-            </div>
+              </div>
             </div>
           </Grid>
         </Grid>

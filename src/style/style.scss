@@ -50,13 +50,13 @@ body {
   box-shadow: inset 7px 0 9px -7px black;
 }
 .inner-shadow {
+  padding: 12px;
   box-shadow: inset 1px 0px 5px 1px rgba(0, 0, 0, 0.397);
 }
 
 
 .section {
-  padding: 12px;
-  height: 800px;
+  
   overflow-y:auto;
   &__h1 {
     font-size: 32px;
@@ -67,6 +67,7 @@ body {
     font-size: 24px;
     color: #3f51b5;
     text-decoration: underline;
+    margin-top: 15px;
   }
   &__h3 {
     font-size: 18px;
@@ -78,6 +79,13 @@ body {
   &__text--green {
     color: #00bb1f;
   }
+}
+
+.section-map {
+  height: 800px;
+}
+.section-info {
+  height: 820px;
 }
 
 .scroll {

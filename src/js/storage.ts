@@ -25,7 +25,7 @@ function setLotsToStorage(lots:Array<Lot>) {
   localStorage.setItem('lots', JSON.stringify(lots));
 }
 
-function addTenant(tenant:Tenant) {
+function addTenanttoStorage(tenant:Tenant) {
   let data = localStorage.getItem('tenants');
   if (data) {
     let tenants = JSON.parse(data);
@@ -40,4 +40,4 @@ function getTenantByLotUUID (uuid:string) {
 
 }
 
-export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenant };
+export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenanttoStorage };
