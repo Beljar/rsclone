@@ -72,4 +72,12 @@ function getTenantByUUID(tenantUUID: string) {
   return null;
 }
 
-export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenanttoStorage, addContractToStorage, getContractByLotUUID, getTenantByUUID };
+function getTenants() {
+  let data = localStorage.getItem('tenants');
+  if(data) {
+    return JSON.parse(data);
+  }
+  return [];
+}
+
+export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenanttoStorage, addContractToStorage, getContractByLotUUID, getTenantByUUID, getTenants };

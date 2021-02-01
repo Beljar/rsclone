@@ -1,6 +1,6 @@
 .form {
   input {
-    width:100px;
+    width: 100px;
   }
   .form__button-block {
     margin-left: -10px;
@@ -12,10 +12,17 @@
     background-color: #3f51b50f;
     .form--label {
       display: inline-flex;
-      width:50%;
+      width: 50%;
     }
     .form--input {
       margin-left: 10px;
+    }
+    .form__search-icon {
+      width: 30px;
+      align-self: flex-end;
+    }
+    .form__search-field {
+      width: 150px;
     }
   }
 }

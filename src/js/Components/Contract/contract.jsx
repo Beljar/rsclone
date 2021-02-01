@@ -4,22 +4,31 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Contract from '../../DataModels/contract.ts';
+import Tenant from '../../DataModels/tenant.ts';
 import ContractViewComponent from './contract.viewer.jsx';
 import { addContractToStorage, getTenantByUUID } from '../../storage.ts';
 
 class ContractComponent extends Component {
   static getDerivedStateFromProps(props, state) {
     console.log('getDerived')
-    return { 
+    const out = { 
       contract: props.contract || state.contract,
       newMode: (props.contract) ? 0 : 1,
-      tenant: (props.contract) ? getTenantByUUID(props.contract.tenantUUID) : null
+      tenant: (props.contract) ? getTenantByUUID(props.contract.tenantUUID) : state.tenantSet ? state.tenant : ((state.newTenant) ? state.tenant : null)
     };
+    if(state.newTenant){
+      state.newTenant = 0;
+    }
+    if(state.tenantSet){
+      state.tenantSet = 0;
+    }
+    return out;
   }
   constructor(props) {
     super(props);
     this.startContract = this.startContract.bind(this);
     this.setTenant = this.setTenant.bind(this);
+    this.newTenant = this.newTenant.bind(this);
     this.state = {
       contract: this.props.contract || (new Contract({lotUUID: this.props.lotUUID})),
       newMode: (this.props.contract) ? 0 : 1,
@@ -40,10 +49,20 @@ class ContractComponent extends Component {
       contract.tenantUUID = tenant.uuid;
       return {
         contract,
-        tenant
+        tenant,
+        tenantSet: 1
       }
     })
     console.log(this.state);
+  }
+  newTenant(){
+    console.log('new tenant');
+    this.setState((state) => {
+      return {
+        tenant: (new Tenant),
+        newTenant: 1
+      }
+    })
   }
   render() {
     console.log('render contract');
@@ -51,7 +70,7 @@ class ContractComponent extends Component {
     return <Fragment>
       <div className='section__h1'>Contract {(this.state.tenant === null) ? null : this.state.tenant.name}</div>
       {(this.state.newMode) ? <Fragment>
-        <TenantComponent tenant={this.state.tenant} startContract={this.startContract} onUnSelect={this.unSelectTenant} onDelete={this.deleteTenant} onSave={this.setTenant} />
+        <TenantComponent tenant={this.state.tenant} newMode={0} newTenant={this.newTenant} startContract={this.startContract} onUnSelect={this.unSelectTenant} onDelete={this.deleteTenant} onSave={this.setTenant} />
         <div className='form--label' className='section__h2'>Payment:</div>
         <div className='form__row'>
           <span className='form--label'>Pay period:</span>

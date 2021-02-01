@@ -8,6 +8,7 @@ import config from '../constants.ts';
 
 class LotComponent extends Component {
   static getDerivedStateFromProps(props, state) {
+    console.log('derive')
     return { lot: props.lot };
   }
   constructor(props) {

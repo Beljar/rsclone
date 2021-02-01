@@ -1,14 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import TenantDialog from './tenantDialog.jsx';
 import Tenant from '../DataModels/tenant.ts';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import { addTenanttoStorage } from '../storage.ts';
+import Grid from '@material-ui/core/Grid';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { addTenanttoStorage, getTenants } from '../storage.ts';
 
 
 class TenantComponent extends Component {
+  static getDerivedStateFromProps(props, state) {
+    return {
+      tenant: props.tenant,
+      tenants: getTenants(),
+      newMode: props.tenant ? state.newMode : 0
+    };
+  }
+
   constructor(props) {
     super(props);
     this.saveTenant = this.saveTenant.bind(this);
@@ -19,22 +30,26 @@ class TenantComponent extends Component {
     console.log(this.props.tenant);
     this.state = {
       tenant: this.props.tenant,
-      tenantAssigned:0,
-      newMode: 0
+      tenantAssigned: 0,
+      newMode: 0,
+      tenants: getTenants()
     };
   }
   saveTenant() {
     this.formRef.reset();
 
-      console.log('save tenant');
-      console.log(this.state.tenant);
-      addTenanttoStorage(this.state.tenant);
-      this.props.onSave(this.state.tenant);
+    console.log('save tenant');
+    console.log(this.state.tenant);
+    addTenanttoStorage(this.state.tenant);
+    this.props.onSave(this.state.tenant);
     this.setState((state) => {
       return {
         newMode: 0
       }
     })
+  }
+  selectTenant(name) {
+    console.log(name);
   }
   setName(e) {
     console.log(e.target.value);
@@ -44,6 +59,7 @@ class TenantComponent extends Component {
       console.log(tenant);
       tenant.name = e.target.value;
       return {
+        freeze: 1,
         tenant: tenant
       }
     })
@@ -63,9 +79,9 @@ class TenantComponent extends Component {
   newTenant() {
     console.log('new tenant');
     this.setState({
-      tenant: new Tenant(),
       newMode: 1
     })
+    this.props.newTenant();
     console.log(this.state);
   }
   resetTenant() {
@@ -80,15 +96,26 @@ class TenantComponent extends Component {
     console.log('tenant render');
     console.log(this.state);
     return <div className="">
-      <div className='section__h2'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>      
-      <div className='form'>        
-        {(this.state.tenant === null || !this.state.newMode) ?
+      <div className='section__h2'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>
+      <div className='form'>
+        {((this.state.tenant === null) || !this.state.newMode) ?
           <form ref={(el) => this.formRef = el}>
-            <div className='form__row'>
-              <SearchIcon />
-              <span className='form--input'><TextField type='text' /> </span>
-            </div>
-            {(this.state.tenant) ? <div>
+            <Autocomplete
+              id="search"
+              freeSolo
+              options={this.state.tenants.map((itm) => itm.name)}
+              onChange={(e, val) => this.selectTenant(val)}
+              renderInput={(params) => (
+
+                <div className='form__row'>
+                  <span className='form__search-icon'><SearchIcon /></span>
+                  <span className='form__search-field'><TextField {...params} label="find tenant" /></span>
+                </div>
+
+              )}
+            />
+
+            {(!this.state.newMode && this.state.tenant) ? <div>
               <div className='form__row'>
                 <span className='form--label'>Name:</span>
                 <span className='form--input'>{this.state.tenant.name}</span>
@@ -99,7 +126,7 @@ class TenantComponent extends Component {
               </div>
               <div className='form__row'>
                 <span className='form--label'>Status</span>
-                </div>
+              </div>
             </div> : null
             }
             <Button color='primary' variant="contained" onClick={this.newTenant}>New</Button>
