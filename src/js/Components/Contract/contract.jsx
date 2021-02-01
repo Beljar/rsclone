@@ -5,6 +5,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Contract from '../../DataModels/contract.ts';
 import ContractViewComponent from './contract.viewer.jsx';
+import { addContractToStorage, getTenantByUUID } from '../../storage.ts';
 
 class ContractComponent extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -12,6 +13,7 @@ class ContractComponent extends Component {
     return { 
       contract: props.contract || state.contract,
       newMode: (props.contract) ? 0 : 1,
+      tenant: (props.contract) ? getTenantByUUID(props.contract.tenantUUID) : null
     };
   }
   constructor(props) {
@@ -19,14 +21,15 @@ class ContractComponent extends Component {
     this.startContract = this.startContract.bind(this);
     this.setTenant = this.setTenant.bind(this);
     this.state = {
-      contract: this.props.contract || (new Contract()),
+      contract: this.props.contract || (new Contract({lotUUID: this.props.lotUUID})),
       newMode: (this.props.contract) ? 0 : 1,
-      tenant: null
+      tenant: (this.props.contract) ? getTenantByUUID(this.props.contract.tenantUUID) : null
     }
   }
   startContract() {
     console.log('starting contract');
     console.log(this.state.contract);
+    addContractToStorage(this.state.contract);
     this.props.onStart(this.state.contract);
   }
   setTenant(tenant) {

@@ -1,5 +1,6 @@
 import Lot from './DataModels/lot';
 import Tenant from './DataModels/tenant';
+import Contract from './DataModels/contract';
 
 function addLotToStorage(lot: Lot) {
   let data = localStorage.getItem('lots');
@@ -40,4 +41,35 @@ function getTenantByLotUUID (uuid:string) {
 
 }
 
-export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenanttoStorage };
+function addContractToStorage(contract:Contract) {
+  let data = localStorage.getItem('contracts');
+  if (data) {
+    let contracts = JSON.parse(data);
+    contracts.push(contract);
+    localStorage.setItem('contracts', JSON.stringify(contracts));
+  } else {
+    localStorage.setItem('contracts', JSON.stringify([contract]));
+  }
+}
+
+function getContractByLotUUID(lotUUID:string){
+  let data = localStorage.getItem('contracts');
+  if (data) {
+    let contracts = JSON.parse(data);
+    let contract = contracts.find((itm : Contract) => itm.lotUUID === lotUUID);
+    return contract;
+  }
+  return null;
+}
+
+function getTenantByUUID(tenantUUID: string) {
+  let data = localStorage.getItem('tenants');
+  if (data) {
+    let tenants = JSON.parse(data);
+    let tenant = tenants.find((itm : Tenant) => itm.uuid === tenantUUID);
+    return tenant;
+  }
+  return null;
+}
+
+export { addLotToStorage, getLotsFromStorage, setLotsToStorage, addTenanttoStorage, addContractToStorage, getContractByLotUUID, getTenantByUUID };

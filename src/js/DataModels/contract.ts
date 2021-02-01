@@ -7,12 +7,17 @@ interface ContractInterface {
 }
 
 class Contract {
+  uuid: string;
+  tenantUUID: string;
+  lotUUID: string;
   constructor({
     uuid = uuidv4(),
     tenantUUID = null,
     lotUUID = null
-  }:ContractInterface = {}) {
-
+  }: ContractInterface = {}) {
+    this.uuid = uuid;
+    this.tenantUUID = tenantUUID;
+    this.lotUUID = lotUUID;
   }
 }
 

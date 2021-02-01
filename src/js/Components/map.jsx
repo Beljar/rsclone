@@ -163,8 +163,6 @@ class Map extends Component {
         zIndex={0}
       />
       {this.props.polygons.map((itm, idx) => {
-        console.log('polygons')
-        console.log(itm, (this.state.selectedId === idx) ? 'blue' : 'red');
         return <Polygon pathOptions={{ color: (this.props.selectedPolygonId === idx) ? 'blue' : 'SlateGray', fillColor: 'LightSlateGray' }} positions={itm} key={idx}
           eventHandlers={{
             click: () => (this.state.drawMode) ? null : this.onPolygonSelected(idx),

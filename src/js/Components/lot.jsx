@@ -14,6 +14,8 @@ class LotComponent extends Component {
     super(props);
     this.save = this.save.bind(this);
     this.setLotProp = this.setLotProp.bind(this);
+    this.setRecommendedPriceTotal = this.setRecommendedPriceTotal.bind(this);
+    this.recommendedPriceTotal = React.createRef();
     console.log(this.props.lot);
     console.log(this.props.lot.clone());
     this.state = { lot: this.props.lot };
@@ -40,6 +42,19 @@ class LotComponent extends Component {
       console.log(lot);
       }
       lot[key] = val;
+      return {
+        lot: lot
+      }
+    })
+  }
+  setRecommendedPriceTotal(e) {
+    this.setState((state) => {
+      console.log(state);
+      const lot = state.lot;
+      if (config.debug) {
+      console.log(lot);
+      }
+      lot['price'] = e.target.value;
       return {
         lot: lot
       }
@@ -104,11 +119,11 @@ class LotComponent extends Component {
         <div className='form--label' className='section__h3 section__text--green'>Recommended price:</div>
         <div className='form__row'>
           <span className='form--label'>Per meter:</span>
-          <span className='form--input'><TextField type='text' /></span>
+          <span className='form--input'><TextField type='text' name='price' value={this.props.lot.price || ''} onChange={this.setRecommendedPricePerMeter}/></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Total:</span>
-          <span className='form--input'><TextField type='text' /></span>
+          <span className='form--input'><TextField type='text' value={this.props.lot.price || ''} onChange={this.setRecommendedPriceTotal}/></span>
         </div>
         <span className='form--label' className='section__h3 section__text--red'>Minimal price:</span>
         <PriceCalculator lot={this.state.lot} />

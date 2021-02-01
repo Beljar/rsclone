@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import '../style/style.scss';
 import 'leaflet/dist/leaflet.css';
 import polygonArea from './Lib/polygonArea.ts';
-import { addLotToStorage, getLotsFromStorage, setLotsToStorage } from './storage.ts';
+import { addLotToStorage, getLotsFromStorage, setLotsToStorage, getContractByLotUUID, getTenantByUUID } from './storage.ts';
 
 
 const scale = 8;
@@ -63,8 +63,20 @@ class App extends Component {
   selectLot(id) {
     console.log('select lot');
     console.log(id);
+    const contract = getContractByLotUUID(this.state.lots[id].uuid);
+    console.log('found contract');
+    console.log(contract);
+    let tenant;
+    if(contract){
+     tenant = getTenantByUUID(contract.tenantUUID); 
+    }
+    else {
+      tenant = null;
+    }    
     this.setState({
-      selectedLotId: id
+      selectedLotId: id,
+      contract,
+      tenant
     })
   }
 
@@ -143,7 +155,7 @@ class App extends Component {
                     {(this.state.selectedLotId !== null) ? <LotComponent lot={this.state.lots[this.state.selectedLotId].clone()} onUnSelect={this.unSelectLot} onDelete={this.deleteLot} onSave={this.saveLot} /> : <div>Select lot</div>}
                   </Grid>
                   <Grid item xs={6} sm={12} lg={6} className=''>
-                    {(this.state.selectedLotId !== null) ? <ContractComponent contract={this.state.contract} tenant={this.state.tenant} onStart={this.startContract} /> : null}
+                    {(this.state.selectedLotId !== null) ? <ContractComponent contract={this.state.contract} tenant={this.state.tenant} lotUUID={this.state.lots[this.state.selectedLotId].uuid} onStart={this.startContract} /> : null}
                   </Grid>
                 </Grid>
               </div>
