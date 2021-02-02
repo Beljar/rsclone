@@ -19,20 +19,24 @@ class Lot {
   uuid: string;
   name: string;
   area: number;
+  factArea: number;
   water: boolean;
   tenantUUID: string;
   geometry: GeometryInterface;
   price: number;
+  occupied: boolean;
   constructor(
     { uuid = uuidv4(), name = null, area, water = false, tenantUUID = null, geometry, price = 0 }: LotInterface
   ) {
     this.uuid = uuid;
     this.name = name;
     this.area = area;
+    this.factArea = area;
     this.water = water;
     this.geometry = geometry;
     this.tenantUUID = tenantUUID;
     this.price = price;
+    this.occupied = false;
     //this.type = 'Feature';
     //this.area = 0;
     /*     this.geometry = {

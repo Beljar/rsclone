@@ -125,6 +125,8 @@ class App extends Component {
     console.log('contract started');
     console.log(this.state.contract);
     this.setState((state) => {
+      const lot = state.lots[state.selectedLotId];
+      lot.occupied = true;
       return {
         contract,
         tenant
@@ -144,7 +146,7 @@ class App extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={9} lg={7}>
             <div className='section section-map inner-shadow' >
-              <Map polygons={this.state.lots.map((itm) => itm.geometry.coordinates)} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
+              <Map lots={this.state.lots} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
             </div>
           </Grid>
           <Grid item xs={12} sm={3} lg={5}>
