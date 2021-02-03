@@ -34,8 +34,8 @@ function MapController(props) {
   }
 
   const closePLine = () => {
-      pts.pop();
-      props.onPolygonAdd(pts);
+    pts.pop();
+    props.onPolygonAdd(pts);
   }
 
   useMapEvent('click', (e) => {
@@ -73,7 +73,7 @@ function MapController(props) {
     console.log(e.originalEvent.code);
   })
 
-
+  console.log(props.selectedPolygonId !== null);
   return <Fragment>
     <ImageOverlay
       bounds={bounds}
@@ -82,13 +82,26 @@ function MapController(props) {
     />
     {
       props.lots.map((itm, idx) => {
-        return <Polygon pathOptions={{ color: (props.selectedPolygonId === idx) ? 'blue' : 'SlateGray', fillColor: 'LightSlateGray' }} positions={itm.geometry.coordinates} key={idx}
+        if(props.selectedPolygonId !== idx) {
+        return <Polygon
+          pathOptions={{
+            color: (props.selectedPolygonId === idx) ? 'blue' : 'SlateGray',
+            fillColor: (itm.occupied) ? 'purple' : 'LightSlateGray'
+          }}
+          positions={itm.geometry.coordinates} key={idx}
           eventHandlers={{
             click: () => (drawMode) ? null : onPolygonSelected(idx),
           }}
-        />
+        />}
       })
     }
+        {(props.selectedPolygonId !== null) ? <Polygon
+          pathOptions={{
+            color: 'blue',
+            fillColor: (props.lots[props.selectedPolygonId].occupied) ? 'purple' : 'LightSlateGray'
+          }}
+          positions={props.lots[props.selectedPolygonId].geometry.coordinates} key={props.selectedPolygonId}
+          /> : null}
     <Polyline className='cursor-crosshair' positions={[pts]} />
     <div className='leaflet-top leaflet-right'>
       <div className="leaflet-control">
@@ -97,6 +110,14 @@ function MapController(props) {
           <Button color='primary' variant="contained" onClick={drawModeOn} startIcon={<CreateIcon />} id={'new-lot'}>New lot</Button>}
       </div>
     </div>
+    {(pts.length > 3) ? <div className='map__hint-container'>
+      <div className='map__hint'>press 'Enter' to close line</div>
+    </div> : null}
+    {(drawMode) ? <div className='map__hint-container'>
+    <div className='map__hint'>press 'Esc' to cancel</div>
+    </div> : null}
+
+    
   </Fragment>
 }
 

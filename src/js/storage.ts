@@ -23,6 +23,8 @@ function getLotsFromStorage() {
 }
 
 function setLotsToStorage(lots:Array<Lot>) {
+  console.log('writing lots');
+  console.log(lots);
   localStorage.setItem('lots', JSON.stringify(lots));
 }
 

@@ -11,6 +11,7 @@ class LotComponent extends Component {
     console.log('derive')
     return { lot: props.lot };
   }
+
   constructor(props) {
     super(props);
     this.save = this.save.bind(this);
@@ -21,17 +22,19 @@ class LotComponent extends Component {
     console.log(this.props.lot.clone());
     this.state = { lot: this.props.lot };
   }
+
   save() {
     this.props.onSave(this.state.lot);
   }
+
   setLotProp(e) {
     console.log(e.target.type);
     const key = e.target.name;
     let val;
-    if(e.target.type === 'text'){
-    val = e.target.value;
-  } else if(e.target.type === 'checkbox'){
-    val = e.target.checked;
+    if (e.target.type === 'text') {
+      val = e.target.value;
+    } else if (e.target.type === 'checkbox') {
+      val = e.target.checked;
     }
     if (config.debug) {
       console.log(`assigning ${key} ${val} to lot`);
@@ -40,20 +43,24 @@ class LotComponent extends Component {
       console.log(state);
       const lot = state.lot;
       if (config.debug) {
-      console.log(lot);
+        console.log(lot);
       }
       lot[key] = val;
+      if (config.debug) {
+        console.log(lot);
+      }
       return {
         lot: lot
       }
     })
   }
+
   setRecommendedPriceTotal(e) {
     this.setState((state) => {
       console.log(state);
       const lot = state.lot;
       if (config.debug) {
-      console.log(lot);
+        console.log(lot);
       }
       lot['price'] = e.target.value;
       return {
@@ -61,6 +68,7 @@ class LotComponent extends Component {
       }
     })
   }
+
   render() {
     console.log('render lot');
     console.log(this.props.lot);
@@ -74,15 +82,9 @@ class LotComponent extends Component {
         </div>
         <div className='form__row'>
           <span className='form--label'>Status</span>
-          <span className='form--input'>
-            <Select
-              native
-              value={0}
-            >
-              <option value={0}>Idle</option>
-              <option value={1}>Occupied</option>
-              <option value={2}>Reserved</option>
-            </Select></span>
+          {(this.props.lot.occupied) ?
+          <span className='form--input text--red'>{ 'occupied'}</span> :
+          <span className='form--input text--green'>{ 'idle'}</span>}
         </div>
         <div className='form__row'>
           <span className='form--label'>Area by draft:</span>
@@ -90,19 +92,21 @@ class LotComponent extends Component {
         </div>
         <div className='form__row'>
           <span className='form--label'>Area by fact:</span>
-          <span className='form--input'><TextField type='text' /></span>
+          <span className='form--input'><TextField type='text' name='factArea' value={this.props.lot.factArea} onChange={this.setLotProp} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Max electric output:</span>
           <span className='form--input'><TextField type='text' /></span>
         </div>
         <div className='form__row'>
-          <span className=''>Water:</span>
-          <span className=''><Checkbox checked={this.props.lot.water} name='water' color='primary' onChange={this.setLotProp} />
+          <span className='form--label'>Water:</span>
+          <span className='form--input'><Checkbox checked={this.props.lot.water} name='water' color='primary' onChange={this.setLotProp} />
           </span>
-
+        </div>
+        <div className='form__row'>
           <span className='form--label'>Gas:</span>
-          <span className='form--input'><TextField type='text' /></span>
+          <span className='form--input'><Checkbox checked={this.props.lot.water} name='water' color='primary' onChange={this.setLotProp} />
+          </span>
         </div>
         <div className='form--label' className='section__h2'>Price</div>
         <div className='form__row'>
@@ -117,17 +121,17 @@ class LotComponent extends Component {
               <option value={3}>Year</option>
             </Select></span>
         </div>
-        <div className='form--label' className='section__h3 section__text--green'>Recommended price:</div>
+        <div className='form--label' className='section__h3 text--green'>Recommended price:</div>
         <div className='form__row'>
           <span className='form--label'>Per meter:</span>
-          <span className='form--input'><TextField type='text' name='price' value={this.props.lot.price || ''} onChange={this.setRecommendedPricePerMeter}/></span>
+          <span className='form--input'><TextField type='text' name='price' value={this.props.lot.price || ''} onChange={this.setRecommendedPricePerMeter} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Total:</span>
-          <span className='form--input'><TextField type='text' value={this.props.lot.price || ''} onChange={this.setRecommendedPriceTotal}/></span>
+          <span className='form--input'><TextField type='text' value={this.props.lot.price || ''} onChange={this.setRecommendedPriceTotal} /></span>
         </div>
-        <span className='form--label' className='section__h3 section__text--red'>Minimal price:</span>
-        <PriceCalculator lot={this.state.lot} />
+        {/* <span className='form--label' className='section__h3 text--red'>Minimal price:</span>
+        <PriceCalculator lot={this.state.lot} /> */}
         <div className='form__button-block'>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.save}>Save</Button>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.props.onUnSelect} >Unselect</Button>

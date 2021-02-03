@@ -35,9 +35,9 @@ class TenantComponent extends Component {
       tenants: getTenants()
     };
   }
+
   saveTenant() {
     this.formRef.reset();
-
     console.log('save tenant');
     console.log(this.state.tenant);
     addTenanttoStorage(this.state.tenant);
@@ -48,9 +48,25 @@ class TenantComponent extends Component {
       }
     })
   }
+
   selectTenant(name) {
+    console.log('setting tenant');
     console.log(name);
+    const tenant = this.state.tenants.find((itm) => itm.name === name);
+    console.log(tenant);
+    if (tenant) {
+      this.props.onSave(tenant);
+          this.setState((state) => {
+      return {
+        newMode: 0,
+        tenant
+      }
+    })
+    } else {
+      this.resetTenant();
+    }
   }
+
   setName(e) {
     console.log(e.target.value);
     this.setState((state) => {
@@ -64,6 +80,7 @@ class TenantComponent extends Component {
       }
     })
   }
+
   setITN(e) {
     console.log(e.target.value);
     this.setState((state) => {
@@ -76,6 +93,7 @@ class TenantComponent extends Component {
       }
     })
   }
+
   newTenant() {
     console.log('new tenant');
     this.setState({
@@ -84,12 +102,16 @@ class TenantComponent extends Component {
     this.props.newTenant();
     console.log(this.state);
   }
+
   resetTenant() {
+    console.log('resetting')
     this.formRef.reset();
+    this.props.onUnSelect();
     this.setState({
       tenant: null,
       newMode: 0
     })
+    console.log(this.state);
   }
 
   render() {
@@ -114,7 +136,6 @@ class TenantComponent extends Component {
 
               )}
             />
-
             {(!this.state.newMode && this.state.tenant) ? <div>
               <div className='form__row'>
                 <span className='form--label'>Name:</span>

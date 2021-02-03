@@ -30,6 +30,7 @@ class ContractComponent extends Component {
     this.startContract = this.startContract.bind(this);
     this.setTenant = this.setTenant.bind(this);
     this.newTenant = this.newTenant.bind(this);
+    this.unSelectTenant = this.unSelectTenant.bind(this);
     this.state = {
       contract: this.props.contract || (new Contract({lotUUID: this.props.lotUUID})),
       newMode: (this.props.contract) ? 0 : 1,
@@ -62,6 +63,14 @@ class ContractComponent extends Component {
       return {
         tenant: (new Tenant),
         newTenant: 1
+      }
+    })
+  }
+  unSelectTenant(){
+    this.setState((state) => {
+      return {
+        tenant: null,
+        newTenant: 0
       }
     })
   }
@@ -104,7 +113,6 @@ class ContractComponent extends Component {
         </div>
         <div className='form__button-block'>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.startContract}>Start contract</Button>
-          <Button className='lot__btn' color='secondary' variant="contained" onClick={this.props.onUnSelect} >Dismiss</Button>
         </div>
       </Fragment> :
       <ContractViewComponent tenant={this.state.tenant} contract={this.state.contract}/>

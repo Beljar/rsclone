@@ -73,14 +73,13 @@ body {
     font-size: 18px;
     color: #3f51b5;
   }
-  &__text--red {
+}
+  .text--red {
     color: #f50057;
   }
-  &__text--green {
+  .text--green {
     color: #00bb1f;
   }
-}
-
 .section-map {
   height: 800px;
 }
@@ -99,6 +98,27 @@ body {
   z-index: 0;
   overflow: hidden;
   outline: none;
+  &__hint-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__hint{
+    position: relative;
+    font-size: 14pt;
+    color: grey;
+    z-index: 800;
+  }
+}
+
+@media(max-width: 700px) {
+  .section-map {
+    height: 400px;
+  }
+  .map {
+    height: 400px;
+  }
 }
 
 .leaflet-container {

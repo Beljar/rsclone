@@ -8,6 +8,7 @@ import TenantComponent from './Components/tenant.jsx';
 import Lot from './DataModels/lot.ts';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { createMuiTheme, ThemeProvider  } from '@material-ui/core/styles';
 import '../style/style.scss';
 import 'leaflet/dist/leaflet.css';
 import polygonArea from './Lib/polygonArea.ts';
@@ -15,6 +16,18 @@ import { addLotToStorage, getLotsFromStorage, setLotsToStorage, getContractByLot
 
 
 const scale = 8;
+
+const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 700,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+})
 
 class App extends Component {
   constructor() {
@@ -125,9 +138,10 @@ class App extends Component {
   startContract(contract, tenant) {
     console.log('contract started');
     console.log(this.state.contract);
+    const lot = this.state.lots[this.state.selectedLotId];
+    lot.occupied = true;
+    this.saveLot(lot);
     this.setState((state) => {
-      const lot = state.lots[state.selectedLotId];
-      lot.occupied = true;
       return {
         contract,
         tenant
@@ -138,19 +152,19 @@ class App extends Component {
   render() {
     console.log('render main');
     console.log(this.state);
-    return <div>
+    return <ThemeProvider theme={theme}>
       <div className='header'>
         <i className='logo'></i>
         <span className='header__h1'>Estate Agent</span>
       </div>
       <div className="body-container">
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={9} lg={7}>
+          <Grid item xs={12} sm={8} lg={7}>
             <div className='section section-map inner-shadow' >
               <Map lots={this.state.lots} onPolygonAdd={this.addLot} onPolygonSelected={this.selectLot} selectedPolygonId={this.state.selectedLotId} onPolygonDeleted={this.deleteLot} />
             </div>
           </Grid>
-          <Grid item xs={12} sm={3} lg={5}>
+          <Grid item xs={12} sm={4} lg={5}>
             <div className='section section-info' >
               <div className="inner-container">
                 <Grid container xs={12} spacing={3}>
@@ -167,7 +181,7 @@ class App extends Component {
         </Grid>
       </div>
       {(this.state.modalMode) ? <div className='overlay'></div> : null}
-    </div>
+      </ThemeProvider>
   }
 
 }

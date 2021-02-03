@@ -1,0 +1,34 @@
+Basic scope:
+
+Map Component +120
+
+1. Shows draft of property +10
+2. Supports basic interactions: zooming and panning +10
+3. Shows property lots as polygons +10
+4. Implemented color differentiation of occupied and idle lots +10
+5. Cursor reacts on hovering the lot +10
+6. Selected lot changes border color and is brought to front in drawing order +10
+7. Has "New lot" button which starts drawing mode +10
+8. In drawing mode cursor is changed and "New lot" button converts it self into "Cancel" button +10
+9. In drawing mode is implemented 'rubber band' line with one end in last clicked point and other in current mouse position +10
+10. On hitting enter key in drawing mode polyline is closed and converted to polygon, drawing mode turns over. +10
+11. On hitting Escape key or clicking Cancel key  drawing mode turns over, and drawn lines dissappear. +10
+12. While in drawing mode, hints are shown in upper part of map. +10
+
+Lot Component
+
+1.
+
+Contract Component
+
+1.
+
+Additional scope:
+
+Used libraries and tools:
+
+1. WebPack +20
+2. TypeScript +10 (used partly)
+3. React +20
+
+LWC coefficient
