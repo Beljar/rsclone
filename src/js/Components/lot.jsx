@@ -17,10 +17,12 @@ class LotComponent extends Component {
     this.save = this.save.bind(this);
     this.setLotProp = this.setLotProp.bind(this);
     this.setRecommendedPriceTotal = this.setRecommendedPriceTotal.bind(this);
+    this.setRecommendedPricePerMeter = this.setRecommendedPricePerMeter.bind(this);
     this.recommendedPriceTotal = React.createRef();
     console.log(this.props.lot);
     console.log(this.props.lot.clone());
     this.state = { lot: this.props.lot };
+    this.ppm = null;
   }
 
   save() {
@@ -35,6 +37,8 @@ class LotComponent extends Component {
       val = e.target.value;
     } else if (e.target.type === 'checkbox') {
       val = e.target.checked;
+    } else if (e.target.type === 'select-one') {
+      val = e.target.value;
     }
     if (config.debug) {
       console.log(`assigning ${key} ${val} to lot`);
@@ -56,6 +60,7 @@ class LotComponent extends Component {
   }
 
   setRecommendedPriceTotal(e) {
+    this.ppm = null;
     this.setState((state) => {
       console.log(state);
       const lot = state.lot;
@@ -63,6 +68,21 @@ class LotComponent extends Component {
         console.log(lot);
       }
       lot['price'] = e.target.value;
+      return {
+        lot: lot
+      }
+    })
+  }
+
+  setRecommendedPricePerMeter(e) {
+    this.ppm = e.target.value;
+    this.setState((state) => {
+      console.log(state);
+      const lot = state.lot;
+      if (config.debug) {
+        console.log(lot);
+      }
+      lot['price'] = Math.round(e.target.value * state.lot.factArea * 100) / 100;
       return {
         lot: lot
       }
@@ -96,7 +116,7 @@ class LotComponent extends Component {
         </div>
         <div className='form__row'>
           <span className='form--label'>Max electric output:</span>
-          <span className='form--input'><TextField type='text' /></span>
+          <span className='form--input'><TextField type='text' name='electicity' value={this.props.lot.electicity} onChange={this.setLotProp} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Water:</span>
@@ -105,7 +125,7 @@ class LotComponent extends Component {
         </div>
         <div className='form__row'>
           <span className='form--label'>Gas:</span>
-          <span className='form--input'><Checkbox checked={this.props.lot.water} name='water' color='primary' onChange={this.setLotProp} />
+          <span className='form--input'><Checkbox checked={this.props.lot.gas} name='gas' color='primary' onChange={this.setLotProp} />
           </span>
         </div>
         <div className='form--label' className='section__h2'>Price</div>
@@ -114,17 +134,19 @@ class LotComponent extends Component {
           <span className='form--input'>
             <Select
               native
-              value={2}>
+              value={this.props.lot.payPeriod}
+              name='payPeriod'
+              onChange={this.setLotProp}>
               <option value={0}>Day</option>
               <option value={1}>Week</option>
               <option value={2}>Month</option>
-              <option value={3}>Year</option>
+              <option value={3}>Year</option>              
             </Select></span>
         </div>
         <div className='form--label' className='section__h3 text--green'>Recommended price:</div>
         <div className='form__row'>
           <span className='form--label'>Per meter:</span>
-          <span className='form--input'><TextField type='text' name='price' value={this.props.lot.price || ''} onChange={this.setRecommendedPricePerMeter} /></span>
+          <span className='form--input'><TextField type='text' name='price' value={this.ppm || (Math.round((this.props.lot.price / this.props.lot.factArea) * 100) / 100) || ''} onChange={this.setRecommendedPricePerMeter} /></span>
         </div>
         <div className='form__row'>
           <span className='form--label'>Total:</span>

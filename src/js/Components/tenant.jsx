@@ -128,7 +128,6 @@ class TenantComponent extends Component {
               options={this.state.tenants.map((itm) => itm.name)}
               onChange={(e, val) => this.selectTenant(val)}
               renderInput={(params) => (
-
                 <div className='form__row'>
                   <span className='form__search-icon'><SearchIcon /></span>
                   <span className='form__search-field'><TextField {...params} label="find tenant" /></span>
@@ -162,7 +161,7 @@ class TenantComponent extends Component {
               <span className='form--input'><TextField type='text' onChange={this.setITN} /></span>
             </div>
             <div className='form__row'>
-              <span className='form--label'>Status</span>
+              <span className='form--label'>Type</span>
               <span className='form--input'>
                 <Select
                   native

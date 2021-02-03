@@ -15,17 +15,30 @@ Map Component +120
 11. On hitting Escape key or clicking Cancel key  drawing mode turns over, and drawn lines dissappear. +10
 12. While in drawing mode, hints are shown in upper part of map. +10
 
-Lot Component
+Lot Component +100
 
-1.
+1. Lot information is shown when user click on lot on map. +10
+2. User can change lot's name by filling correspondent field. The lot's name will be shown in the title. +10
+3. Lot status (idle/occupied) is shown. Text color changes depending on status. +10
+4. Area of lot is calculated relying on polygon area on map and shown. +10
+5. User can change actual area (field "area by fact") because drawing can be unprecise. +10
+6. User can modify different lot parameters by filling corresponding fields. +10
+7. Price is calculated 'on fly': when user enters total price, price per meter is calculated automatically and vise versa. For price calculations area by fact value is used. +10
+8. User can save all entered parameters by clicking Save button (saving is performed via localStorage) +10
+9. User can delete current lot by clicking delete button. The lot will be deleted from map. +10
+10. User can unselect lot by clicking Unselect button. The Lot Component will be hidden and corresponding polygon will be unselected on map. +10
 
-Contract Component
+Contract Component +40
 
-1.
+1. The contract is showing for selected lot. If contract is not started it is shown in editable mode, otherwise it can't be edited. +10
+2. User can search tenant via search field. +10
+3. User can add new tenant by clicking New button, filling editable fields and clicking Save button. New tenant is saved to localStorage and available in search field. +10
+4. User can strart contract by clicking corresponded button. When contract is started selected lot changes its status to "ocupied" and color on map. +10
+
 
 Additional scope:
 
-Used libraries and tools:
+Tech stack: +50
 
 1. WebPack +20
 2. TypeScript +10 (used partly)
