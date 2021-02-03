@@ -63,6 +63,7 @@ class App extends Component {
   selectLot(id) {
     console.log('select lot');
     console.log(id);
+    console.log(this.state.lots[id].uuid);
     const contract = getContractByLotUUID(this.state.lots[id].uuid);
     console.log('found contract');
     console.log(contract);

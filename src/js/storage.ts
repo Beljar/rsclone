@@ -56,6 +56,7 @@ function getContractByLotUUID(lotUUID:string){
   let data = localStorage.getItem('contracts');
   if (data) {
     let contracts = JSON.parse(data);
+    console.log(contracts);
     let contract = contracts.find((itm : Contract) => itm.lotUUID === lotUUID);
     return contract;
   }

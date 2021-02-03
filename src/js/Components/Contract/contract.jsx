@@ -11,6 +11,7 @@ import { addContractToStorage, getTenantByUUID } from '../../storage.ts';
 class ContractComponent extends Component {
   static getDerivedStateFromProps(props, state) {
     console.log('getDerived')
+    console.log(props);
     const out = { 
       contract: props.contract || state.contract,
       newMode: (props.contract) ? 0 : 1,
