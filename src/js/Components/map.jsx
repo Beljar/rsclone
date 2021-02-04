@@ -4,7 +4,7 @@ import { CRS } from 'leaflet';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import '../../assets/maps/gf.jpg';
-import { distance } from '../lib/geometry.ts';
+import { distance } from '../Lib/geometry.ts';
 
 const tolerance = 5;
 
