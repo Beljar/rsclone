@@ -9,8 +9,8 @@ Contract - a connection between tenant and lot. When contract is signed the lot 
 How to use:
 
 1. Create lot:
- 1. Click "New Lot" in the right upper corner of map
- 2. Draw polyline. Hit enter to connect first and last point to create polygon from polyline.
+  1. Click "New Lot" in the right upper corner of map
+  2. Draw polyline. Hit enter to connect first and last point to create polygon from polyline.
 
 2. Set/change lot info:
  1. Select lot on map - Lot form will appear.
