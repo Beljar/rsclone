@@ -157,7 +157,7 @@ class LotComponent extends Component {
         <div className='form__button-block'>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.save}>Save</Button>
           <Button className='lot__btn' color='primary' variant="contained" onClick={this.props.onUnSelect} >Unselect</Button>
-          <Button className='lot__btn' color='secondary' variant="contained" onClick={() => this.props.onDelete(this.props.lot.name)} >Delete</Button>
+          <Button className='lot__btn' color='secondary' variant="contained" onClick={() => this.props.onDelete(this.props.lot.uuid)} >Delete</Button>
         </div>
       </div>
     </div>

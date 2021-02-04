@@ -13,10 +13,15 @@ import '../style/style.scss';
 import 'leaflet/dist/leaflet.css';
 import polygonArea from './Lib/polygonArea.ts';
 import { addLotToStorage, getLotsFromStorage, setLotsToStorage, getContractByLotUUID, getTenantByUUID } from './storage.ts';
-
+import config from './config';
+import debugStorageFill from './debugStorageFill';
 
 
 const scale = 8;
+
+if(config.debug) {
+  debugStorageFill();
+}
 
 const theme = createMuiTheme({
   breakpoints: {
