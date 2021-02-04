@@ -13,12 +13,12 @@ How to use:
   * Draw polyline. Hit enter to connect first and last point to create polygon from polyline.
 
 2. Set/change lot info:
- 1. Select lot on map - Lot form will appear.
- 2. Fill corresponding fields in Lot form.
- 3. Press Save button
+ * Select lot on map - Lot form will appear.
+ * Fill corresponding fields in Lot form.
+ * Press Save button
 
 3. Start contract:
- 1. Select Lot on map.
- 2. In Contract form select tenant via search box or create new tenant by clicking "New"
- 3. Fill form
- 4. Click "Start Contract"
+ * Select Lot on map.
+ * In Contract form select tenant via search box or create new tenant by clicking "New"
+ * Fill form
+ * Click "Start Contract"
