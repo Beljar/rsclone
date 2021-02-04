@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addTenanttoStorage, getTenants } from '../storage.ts';
+import config from '../config';
 
 
 class TenantComponent extends Component {
@@ -27,6 +28,7 @@ class TenantComponent extends Component {
     this.setITN = this.setITN.bind(this);
     this.resetTenant = this.resetTenant.bind(this);
     this.newTenant = this.newTenant.bind(this);
+    this.setTenantProp = this.setTenantProp.bind(this);
     console.log(this.props.tenant);
     this.state = {
       tenant: this.props.tenant,
@@ -114,8 +116,39 @@ class TenantComponent extends Component {
     console.log(this.state);
   }
 
+  setTenantProp(e) {
+    console.log(e.target.type);
+    const key = e.target.name;
+    let val;
+    if (e.target.type === 'text') {
+      val = e.target.value;
+    } else if (e.target.type === 'checkbox') {
+      val = e.target.checked;
+    } else if (e.target.type === 'select-one') {
+      val = e.target.value;
+    }
+    if (config.debug) {
+      console.log(`assigning ${key} ${val} to tenant`);
+    }
+    this.setState((state) => {
+      console.log(state);
+      const tenant = state.tenant;
+      if (config.debug) {
+        console.log(tenant);
+      }
+      tenant[key] = val;
+      if (config.debug) {
+        console.log(tenant);
+      }
+      return {
+        tenant: tenant
+      }
+    })
+  }
+
   render() {
     console.log('tenant render');
+    console.log((this.state.tenant) ? Tenant.types[this.state.tenant.type] : null);
     console.log(this.state);
     return <div className="">
       <div className='section__h2'>Tenant {(this.state.tenant === null) ? null : this.state.tenant.name}</div>
@@ -132,20 +165,20 @@ class TenantComponent extends Component {
                   <span className='form__search-icon'><SearchIcon /></span>
                   <span className='form__search-field'><TextField {...params} label="find tenant" /></span>
                 </div>
-
               )}
             />
-            {(!this.state.newMode && this.state.tenant) ? <div>
+            {((!this.state.newMode) && this.state.tenant) ? <div>
               <div className='form__row'>
                 <span className='form--label'>Name:</span>
                 <span className='form--input'>{this.state.tenant.name}</span>
               </div>
               <div className='form__row'>
                 <span className='form--label'>ITN:</span>
-                <span className='form--input'>{this.state.tenant.ITN}</span>
+                <span className='form--input'>{this.state.tenant.itn}</span>
               </div>
               <div className='form__row'>
-                <span className='form--label'>Status</span>
+                <span className='form--label'>Type</span>
+                <span className='form--input'>{Tenant.types[this.state.tenant.type]}</span>
               </div>
             </div> : null
             }
@@ -154,18 +187,20 @@ class TenantComponent extends Component {
           <form ref={(el) => this.formRef = el}>
             <div className='form__row'>
               <span className='form--label'>Name:</span>
-              <span className='form--input'><TextField type='text' onChange={this.setName} /></span>
+              <span className='form--input'><TextField type='text' onChange={this.setTenantProp} name='name'/></span>
             </div>
             <div className='form__row'>
               <span className='form--label'>ITN:</span>
-              <span className='form--input'><TextField type='text' onChange={this.setITN} /></span>
+              <span className='form--input'><TextField type='text' onChange={this.setTenantProp} name='itn'/></span>
             </div>
             <div className='form__row'>
               <span className='form--label'>Type</span>
               <span className='form--input'>
                 <Select
                   native
-                  value={0}
+                  value={this.state.tenant ? Number(this.state.tenant.type) : 0}
+                  onChange={this.setTenantProp} 
+                  name='type'
                 >
                   <option value={0}>Any</option>
                   <option value={1}>Food</option>
@@ -174,7 +209,8 @@ class TenantComponent extends Component {
                   <option value={4}>Cloths</option>
                   <option value={5}>Electronics</option>
                   <option value={6}>Jewellery</option>
-                </Select></span>
+                </Select>
+                </span>
             </div>
             <Button className='lot__btn' color='primary' variant="contained" onClick={this.resetTenant} >Cancel</Button>
             <Button className='lot__btn' color='primary' variant="contained" onClick={this.saveTenant} >Save</Button>
