@@ -4,6 +4,9 @@ import { CRS } from 'leaflet';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import '../../assets/maps/gf.jpg';
+import { distance } from '../lib/geometry.ts';
+
+const tolerance = 5;
 
 function MapController(props) {
   const map = useMap();
@@ -42,7 +45,18 @@ function MapController(props) {
     console.log('click');
     if (drawMode) {
       let newPts = pts.slice();
-      if (pts.length) {
+      if (pts.length){
+      if (pts.length > 2) {
+        const lastPt = [e.latlng.lat, e.latlng.lng];
+        console.log(lastPt, pts[0]);
+        const dist = distance(lastPt, pts[0]);
+        console.log(dist);
+        if (dist < tolerance) {
+          closePLine();
+          drawModeOff();
+          return
+        }
+      } 
         newPts.splice(-1, 0, [e.latlng.lat, e.latlng.lng]);
       } else {
         newPts.push([e.latlng.lat, e.latlng.lng])
@@ -70,6 +84,9 @@ function MapController(props) {
       closePLine();
       drawModeOff();
     }
+    if (e.originalEvent.code === 'Escape') {
+      drawModeOff();
+    }
     console.log(e.originalEvent.code);
   })
 
@@ -82,26 +99,27 @@ function MapController(props) {
     />
     {
       props.lots.map((itm, idx) => {
-        if(props.selectedPolygonId !== idx) {
-        return <Polygon
-          pathOptions={{
-            color: (props.selectedPolygonId === idx) ? 'blue' : 'SlateGray',
-            fillColor: (itm.occupied) ? 'purple' : 'LightSlateGray'
-          }}
-          positions={itm.geometry.coordinates} key={idx}
-          eventHandlers={{
-            click: () => (drawMode) ? null : onPolygonSelected(idx),
-          }}
-        />}
+        if (props.selectedPolygonId !== idx) {
+          return <Polygon
+            pathOptions={{
+              color: (props.selectedPolygonId === idx) ? 'blue' : 'SlateGray',
+              fillColor: (itm.occupied) ? 'purple' : 'LightSlateGray'
+            }}
+            positions={itm.geometry.coordinates} key={idx}
+            eventHandlers={{
+              click: () => (drawMode) ? null : onPolygonSelected(idx),
+            }}
+          />
+        }
       })
     }
-        {(props.selectedPolygonId !== null) ? <Polygon
-          pathOptions={{
-            color: 'blue',
-            fillColor: (props.lots[props.selectedPolygonId].occupied) ? 'purple' : 'LightSlateGray'
-          }}
-          positions={props.lots[props.selectedPolygonId].geometry.coordinates} key={props.selectedPolygonId}
-          /> : null}
+    {(props.selectedPolygonId !== null) ? <Polygon
+      pathOptions={{
+        color: 'blue',
+        fillColor: (props.lots[props.selectedPolygonId].occupied) ? 'purple' : 'LightSlateGray'
+      }}
+      positions={props.lots[props.selectedPolygonId].geometry.coordinates} key={props.selectedPolygonId}
+    /> : null}
     <Polyline className='cursor-crosshair' positions={[pts]} />
     <div className='leaflet-top leaflet-right'>
       <div className="leaflet-control">
@@ -114,10 +132,10 @@ function MapController(props) {
       <div className='map__hint'>press 'Enter' to close line</div>
     </div> : null}
     {(drawMode) ? <div className='map__hint-container'>
-    <div className='map__hint'>press 'Esc' to cancel</div>
+      <div className='map__hint'>press 'Esc' to cancel</div>
     </div> : null}
 
-    
+
   </Fragment>
 }
 

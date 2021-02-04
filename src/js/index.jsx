@@ -15,6 +15,7 @@ import polygonArea from './Lib/polygonArea.ts';
 import { addLotToStorage, getLotsFromStorage, setLotsToStorage, getContractByLotUUID, getTenantByUUID } from './storage.ts';
 
 
+
 const scale = 8;
 
 const theme = createMuiTheme({
@@ -47,12 +48,14 @@ class App extends Component {
       modalMode: 0
     }
   }
+
   unSelectLot() {
     console.log('unselect');
     this.setState({
       selectedLotId: null
     })
   }
+
   addLot(coordinates) {
     console.log('adding lot');
     this.setState((state) => {
@@ -71,8 +74,8 @@ class App extends Component {
     })
     console.log('lot added');
     console.log(this.state.lots);
-
   }
+
   selectLot(id) {
     console.log('select lot');
     console.log(id);
